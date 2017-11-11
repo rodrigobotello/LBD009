@@ -2,16 +2,16 @@ select *
 from dbo.Genero
 
 insert into Genero(IdGenero, Nombre)
-values (NEwid(), 'Gore')
+values (NEwid(), 'Terror')
 
 insert into Genero(IdGenero, Nombre)
 values (NEwid(), 'Musical')
 
 insert into Genero(IdGenero, Nombre)
-values (NEwid(), 'Terror')
+values (NEwid(), 'Horror')
 
 insert into Genero(IdGenero, Nombre)
-values (NEwid(), 'Yaoi')
+values (NEwid(), 'Psichological')
 
 insert into Genero(IdGenero, Nombre)
 values (NEwid(), 'Accion')
@@ -20,45 +20,45 @@ insert into Genero(IdGenero, Nombre)
 values (NEwid(), 'Aventura')
 
 delete from Genero
-where Nombre = 'yuri' 
+where Nombre = 'love' 
 
 select *
--- update Genero set Nombre = 'Yuri', IdGenero = NEWID()
+-- update Genero set Nombre = 'love', IdGenero = NEWID()
 from dbo.Genero
-where Nombre = 'Yaoi' and IdGenero = 'EEAD77D8-AEA0-41EC-9B6D-B2E01566852D'
+where Nombre = 'psichological' and IdGenero = 'EEAD77D8-AEA0-41EC-9B6D-B2E01566852D'
 
 
 select *
-from dbo.Anime
+from dbo.Movies
 
-insert into Anime(IdAnime,Nombre,Descripcion, IdGenero, Estado, Descarga)
+insert into Movies(IdMovies,Nombre,Descripcion, IdGenero, Estado, Descarga)
 values (NEWID(),'One Piece', 'Esta bien largo', 'F0D91A84-FDA5-4E98-B11A-21D5799926F9', 'Emision', 'actual')
 
-insert into Anime(IdAnime,Nombre,Descripcion, IdGenero, Estado, Descarga)
+insert into Movies(IdMovies,Nombre,Descripcion, IdGenero, Estado, Descarga)
 values (NEWID(),'Course Party', 'Demasiado sangriento', '05F213A2-1EA0-40E2-8316-03500E2A7DC4', 'Finalizado', 'actual')
 
-insert into Anime(IdAnime,Nombre,Descripcion, IdGenero, Estado, Descarga)
+insert into Movies(IdMovies,Nombre,Descripcion, IdGenero, Estado, Descarga)
 values (NEWID(),'Ganz', 'Buena animacion', '1C4B901D-0156-4C03-A45A-7081B579648C', 'Emision', 'actual')
 
-delete from Anime
+delete from Movies
 where Nombre = 'One piece'
 
 select *
--- update Anime set Estado = 'Finalizado'
-from dbo.Anime
+-- update Movies set Estado = 'Finalizado'
+from dbo.Movies
 where Nombre = 'Ganz'
 
 
 select *
 from dbo.CapituloA
 
-insert into CapituloA(IdCapitulo, Nombre, IdAnime, URL, Descripcion, Temporada, Duracion, NumeroCapitulo)
+insert into CapituloA(IdCapitulo, Nombre, IdMovies, URL, Descripcion, Temporada, Duracion, NumeroCapitulo)
 values (NEWID(), 'One piece', 'EBB7203B-D804-47BE-A311-457BDA3E51CB', NEWID(), 'Esta bien largo', '8', '30' , '526')
 
-insert into CapituloA(IdCapitulo, Nombre, IdAnime, URL, Descripcion, Temporada, Duracion, NumeroCapitulo)
+insert into CapituloA(IdCapitulo, Nombre, IdMovies, URL, Descripcion, Temporada, Duracion, NumeroCapitulo)
 values (NEWID(), 'Ganz', '86803A50-EB85-4654-8FBB-3F6C06E7426F', NEWID(), 'Buena animacion', '1', '30' , '26')
 
-insert into CapituloA(IdCapitulo, Nombre, IdAnime, URL, Descripcion, Temporada, Duracion, NumeroCapitulo)
+insert into CapituloA(IdCapitulo, Nombre, IdMovies, URL, Descripcion, Temporada, Duracion, NumeroCapitulo)
 values (NEWID(), 'Course Party', 'EB3322AF-2903-4B22-A46B-0FE5FCFE0861', NEWID(), 'Demasiado sangriento', '2', '30' , '56')
 
 delete from CapituloA
