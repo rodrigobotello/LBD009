@@ -1,44 +1,44 @@
 --Vistas
-create view VerAnimes
+create view VerMovies
 as
-select Anime.Nombre, CapituloAnime.IDAnime
-from Anime
-INNER JOIN CapituloAnime on Anime.IDAnime = CapituloAnime.IDAnime
+select Movies.Nombre, CapituloMovies.IDMovies
+from Movies
+INNER JOIN CapituloMovies on Movies.IDMovies = CapituloMovies.IDMovies
 
-select * from VerAnimes
+select * from VerMovies
 
-create view IDSMangas
-as select TOP 10 Manga.IDManga, CapituloManga.Nombre
+create view IDSBooks
+as select TOP 10 Books.IBooks, CapituloBooks.Nombre
 from Manga
-RIGHT JOIN CapituloManga on Manga.IDManga = CapituloManga.IDManga
-ORDER BY Manga.Nombre;
+RIGHT JOIN CapituloBooks on Books.IBooks = CapituloBooks.IDBooks
+ORDER BY Books.Nombre;
 
-select * from IDSMangas
+select * from IDSBooks
 
 create view FIDS
 as
-select AVG(Anime.IDAnime) as 'prom. de animes' , AVG(Manga.IDManga) as 'prom. de Manga', AVG(Genero.IDGenero) as 'prom. de generos'
+select AVG(Movies.IDMovies) as 'prom. de Movies' , AVG(MoviesBooks.IDBooks) as 'prom. de Books', AVG(Genero.IDGenero) as 'prom. de generos'
 FROM Anime
-left join Manga on Anime.IDAnime = Manga.IDManga
-inner join Genero on Manga.IDManga = Genero.IDGenero
+left join Books on Movies.IDMovies = Books.IDBooks
+inner join Genero on Books.IDBooks = Genero.IDGenero
 
 select * from FIDS 
 
 Create view Gen
 as
-select Genero.IDGenero, Anime.IDAnime, Manga.Descripcion
+select Genero.IDGenero, Movies.IDAnime, Books.Descripcion
 from Genero
-right join Anime on Anime.IDGenero = Genero.IDGenero
-right join Manga on Manga.IDGenero = Anime.IDGenero
+right join Movies on Movies.IDGenero = Genero.IDGenero
+right join Books on Books.IDGenero = Movies.IDGenero
 
 select * from Gen
 
 create view Descargas
 as
-select Anime.Descarga, Genero.Nombre, Manga.Estado, Manga.IDManga
+select Movies.Descarga, Genero.Nombre, Manga.Estado, MoviesManga.IDManga
 From Anime
-inner join Manga on Anime.IDAnime = Manga.IDManga
-inner join Genero on Manga.IDGenero = Genero.IDGenero
+inner join Books on Movies.IDMovies = Books.IDBooks
+inner join Genero on Books.IDGenero = Genero.IDGenero
 
 select * from Descargas
 
@@ -46,26 +46,26 @@ select * from Descargas
 
 --Procedimientos almacenados
 
-create Procedure ReporteAnime(@valor int)
+create Procedure ReporteMovies(@valor int)
 as 
 begin 
 select * 
-from dbo.VerAnimes
-where IDAnime >4
+from dbo.VerMovies
+where IDMovies >4
 end
 
-exec ReporteAnime 4
+exec ReporteMovies 4
 
 
-create Procedure ReporteManga(@valor int)
+create Procedure ReporteBooks(@valor int)
 as 
 begin 
 select * 
-from dbo.IDSMangas
-where IDManga > 2
+from dbo.IDSBooks 
+where IDBooks  > 2
 end
 
-exec ReporteManga 1
+exec ReporteBooks 1
 
 
 create Procedure ReporteFIDS(@valor int)
@@ -84,7 +84,7 @@ as
 begin 
 select * 
 from dbo.Gen
-where IDAnime <> 5 and IDGenero > 3
+where IDMovies <> 5 and IDGenero > 3
 end
 
 exec ReporteGenDes 6
@@ -95,7 +95,7 @@ as
 begin 
 select * 
 from dbo.Descargas
-where IDManga <> 5 and IDManga <> 3 and IDManga <> 7
+where IDBooks <> 5 and IDBooks <> 3 and IDBooks <> 7
 end
 
 exec ReporteDescargas 8
@@ -114,8 +114,8 @@ select dbo.PromedioDeCap(5,9,7,6) as 'suma de 4 capitulos'
 
 --Triggers
 --tipo after
-create trigger DisparadorAnime
-on Anime
+create trigger DisparadorMovies
+on Movies
 after update 
 as
 begin
@@ -123,37 +123,37 @@ select *
 from inserted
 end
 
-update Anime
-set Anime.Nombre = '99'
-from Anime
-where Anime.Nombre = 'Death Note'
+update Movies
+set Movies.Nombre = '99'
+from Movies
+where Movies.Nombre = 'Pulp Fiction'
 
 
 --Tipo instead
 
-create trigger DisparadorManga
-on Manga
+create trigger DisparadorBooks
+on Books
 instead of update 
-as declare @MangaNombre varchar(max) 
+as declare @BooksNombre varchar(max) 
 IF UPDATE (Nombre)
 	begin
-		set @MangaNombre = 'Es culpa del trigger'
-		select Descripcion, @MangaNombre as 'columna extra'
-		from Manga
-		where Manga.Descripcion = 'El enorme sistema de cuevas, conocido como El Abismo, es el último lugar inexplorado en el mundo. Nadie sabe que tan profundo es este agujero titánico, habitado por extrañas y maravillosas criaturas y lleno de misterio y reliquias antiguas de propósito desconocido para la humanidad. Generaciones de valientes aventureros han sido atraídos a las profundidades cripticas del Abismo. Con el paso del tiempo estos exploradores son conocidos como "Exploradores de las Profundidades". En Oath, el pueblo al borde del Abismo, vive una pequeña niña huérfana llamada Riko, que sueña con convertirse en una gran exploradora como su madre y descubrir los misterios del Abismo. Un día explorando las obscuras profundidades se encuentra con un niño, que resulta ser un robot...'
+		set @BooksNombre = 'Es culpa del trigger'
+		select Descripcion, @BooksNombre as 'columna extra'
+		from Books
+		where Books.Descripcion = 'El enorme sistema de cuevas, conocido como El Abismo, es el Ãºltimo lugar inexplorado en el mundo. Nadie sabe que tan profundo es este agujero titÃ¡nico, habitado por extraÃ±as y maravillosas criaturas y lleno de misterio y reliquias antiguas de propÃ³sito desconocido para la humanidad. Generaciones de valientes aventureros han sido atraÃ­dos a las profundidades cripticas del Abismo. Con el paso del tiempo estos exploradores son conocidos como "Exploradores de las Profundidades". En Oath, el pueblo al borde del Abismo, vive una pequeÃ±a niÃ±a huÃ©rfana llamada Riko, que sueÃ±a con convertirse en una gran exploradora como su madre y descubrir los misterios del Abismo. Un dÃ­a explorando las obscuras profundidades se encuentra con un niÃ±o, que resulta ser un robot...'
 		
 		end
 else 
 	begin
-		set @MangaNombre = 'No es culpa del trigger'
+		set @BooksNombre = 'No es culpa del trigger'
 		select * 
-		from Manga
+		from Books
 end
 
-update Manga
+update Books
 set Nombre = '99'
-from Manga
-where Nombre = 'Death Note'
+from Books
+where Nombre = 'Pulp Fiction'
 
 
 --crear 1 funcion y usarla
