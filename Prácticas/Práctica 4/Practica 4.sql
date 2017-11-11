@@ -2,16 +2,16 @@ select *
 from dbo.Genero
 
 insert into Genero(IdGenero, Nombre)
-values (NEwid(), 'Gore')
+values (NEwid(), 'Terror')
 
 insert into Genero(IdGenero, Nombre)
 values (NEwid(), 'Musical')
 
 insert into Genero(IdGenero, Nombre)
-values (NEwid(), 'Terror')
+values (NEwid(), 'Comedy')
 
 insert into Genero(IdGenero, Nombre)
-values (NEwid(), 'Yaoi')
+values (NEwid(), 'Psichological')
 
 insert into Genero(IdGenero, Nombre)
 values (NEwid(), 'Accion')
@@ -20,7 +20,7 @@ insert into Genero(IdGenero, Nombre)
 values (NEwid(), 'Aventura')
 
 delete from Genero
-where Nombre = 'yuri' 
+where Nombre = 'love' 
 
 select *
 -- update Genero set Nombre = 'Yuri', IdGenero = NEWID()
