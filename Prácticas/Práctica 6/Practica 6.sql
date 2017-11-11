@@ -1,43 +1,43 @@
-create view VerAnimes
+create view VerMovies
 as
-select Anime.Nombre, CapituloAnime.IDAnime
-from Anime
-INNER JOIN CapituloAnime on Anime.IDAnime = CapituloAnime.IDAnime
+select Movies.Nombre, CapituloAnime.IDAnime
+from Movies
+INNER JOIN PartMovies on Movies.IDMovies = SerieMovies.IDMovies
 
-select * from VerAnimes
+select * from VerMovies
 
-create view IDSMangas
-as select TOP 10 Manga.IDManga, CapituloManga.Nombre
-from Manga
+create view IDSBooks
+as select TOP 10 Book.IDBook, ChapterBook.Nombre
+from Book
 RIGHT JOIN CapituloManga on Manga.IDManga = CapituloManga.IDManga
 ORDER BY Manga.Nombre;
 
-select * from IDSMangas
+select * from IDSBooks
 
 create view FIDS
 as
-select AVG(Anime.IDAnime) as 'prom. de animes' , AVG(Manga.IDManga) as 'prom. de Manga', AVG(Genero.IDGenero) as 'prom. de generos'
-FROM Anime
-left join Manga on Anime.IDAnime = Manga.IDManga
-inner join Genero on Manga.IDManga = Genero.IDGenero
+select AVG(Movies.IDMovies) as 'prom. de animes' , AVG(Manga.IDManga) as 'prom. de Manga', AVG(Genero.IDGenero) as 'prom. de generos'
+FROM Movies
+left join Books on Movies.IDMovies = Books.IDBooks
+inner join Genero on Books.IDBooks = Genero.IDGenero
 
 select * from FIDS 
 
 Create view Gen
 as
-select Genero.IDGenero, Anime.IDAnime, Manga.Descripcion
+select Genero.IDGenero, Movies.IDMovies, Manga.Descripcion
 from Genero
-right join Anime on Anime.IDGenero = Genero.IDGenero
-right join Manga on Manga.IDGenero = Anime.IDGenero
+right join Movies on Movies.IDGenero = Genero.IDGenero
+right join Books on Books.IDGenero = Movies.IDGenero
 
 select * from Gen
 
 create view Descargas
 as
-select Anime.Descarga, Genero.Nombre, Manga.Estado, Manga.IDManga
-From Anime
-inner join Manga on Anime.IDAnime = Manga.IDManga
-inner join Genero on Manga.IDGenero = Genero.IDGenero
+select Movies.Descarga, Genero.Nombre, Books.Estado, Books.IDBooks
+From Movies
+inner join Books on Movies.IDMovies = Books.IDBooks
+inner join Genero on Books.IDGenero = Genero.IDGenero
 
 select * from Descargas
 
@@ -46,16 +46,16 @@ select * from Descargas
 select *
 from(
 select *
-from CapituloAnime
+from CapituloMoviesMovies
 where NumeroCap >= 1
 )as Parentesis
 where Parentesis.Nombre <> 'Another-1'
 
 
 with WithTemp as (
-select Genero.Nombre as 'Genero', Anime.Nombre, CapituloAnime.IDAnime
+select Genero.Nombre as 'Genero', Movies.Nombre, CapituloMovies.IDMovies
 from Anime, Genero, CapituloAnime
-where Genero.IDGenero = Anime.IDGenero and Anime.IDAnime = CapituloAnime.IDAnime
+where Genero.IDGenero = Movies.IDGenero and Movies.IDMovies = CapituloMovies.IDMovies
 )
 select *
 from WithTemp
@@ -64,10 +64,10 @@ where WithTemp.Genero = 'AVENTURA'
 
 --Tabla temporal
 
-select Genero.Nombre as 'Genero', Manga.Nombre as 'Manga'
+select Genero.Nombre as 'Genero', Books.Nombre as 'Books'
 into #temp
-from genero, Manga
-where Genero.IDGenero = Manga.IDGenero
+from genero, Books
+where Genero.IDGenero = Books.IDGenero
 
 select *
 from #temp
